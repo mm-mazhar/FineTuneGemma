@@ -97,12 +97,17 @@ See the provided [`configs.yaml`](fineTune/configs/configs.yaml) for a complete,
 #### **A. Prepare Your Environment**
 
 1. **Upload Your Code and Dataset**
-   - Upload `fineTune.zip` (containing the codebase) to your Colab workspace.
+   - `git clone https://github.com/mm-mazhar/FineTuneGemma.git`
+   - make necessary changes in `fineTune/configs/configs.yaml` if you wish to.
+   - Zip `fineTune` folder, then
+   - upload `fineTune.ipynb` to your Colab workspace and select GPU runtime with `A100 with High RAM` and run the notebook.
 
 2. **Mount Google Drive**
    - The notebook will prompt you to mount your Google Drive for persistent storage.
 
 3. **Unzip and Set Up Project**
+   
+   - In the next cell notebook will  prompt you to upload `fineTune.zip` (containing the codebase) to your Colab workspace.
    - The notebook extracts the code and adds it to the Python path.
 
 4. **Install Dependencies**
@@ -142,7 +147,7 @@ See the provided [`configs.yaml`](fineTune/configs/configs.yaml) for a complete,
 
 ---
 
-## 5. Monitoring Training
+## 5. Monitoring Training (Optional)
 
 - **TensorBoard**:  
   - If `tensorboard.auto_start` is enabled and running in Colab, TensorBoard will launch automatically.
@@ -172,6 +177,7 @@ See the provided [`configs.yaml`](fineTune/configs/configs.yaml) for a complete,
 - [VizWiz Dataset](https://vizwiz.cs.colorado.edu/)
 - [Unsloth Documentation](https://github.com/unslothai/unsloth)
 - [Hugging Face Hub](https://huggingface.co/)
+- [FineTuning Gemma Model](https://huggingface.co/mazqoty/gemma-3n-vizWiz-finetuned)
 
 ---
 
@@ -198,7 +204,31 @@ FineTune.ipynb
 
 ---
 
-**Note:**  
-Files in the `extras/` folder are not required for the main workflow and can be ignored.
+## Analysis of Training Results
+
+<div align="center">
+  <img src="docs/images/VLM_Training_0.jpg" alt="Training Results" width="500">
+</div>
+
+
+Training outcome is great, especially for a short, 30-step test run. 
+Here are the key takeaways:
+
+#### **A. The Model is Learning Effectively:**
+
+Training Loss shows a steep and consistent decrease, starting from a high of 4.8825 at Step 1 and dropping all the way to 0.4569 by Step 30. This is a classic sign of a model successfully learning the patterns in given data.
+
+
+#### **B. The Model is Generalizing Well (Not Overfitting):**
+This is the most important metric. Your Validation Loss is also consistently decreasing `(1.16 -> 0.75 -> 0.70)`. This means the model isn't just memorizing the training examples; it's learning the underlying task in a way that allows it to perform well on new, unseen data from the validation set.
+
+
+#### **C. There is Room for More Improvement:**
+
+The best sign here is that at the end of the 30 steps, your validation loss was still going down. This strongly suggests that the model has not yet reached its peak performance. If you were to continue training for more steps or epochs, it's very likely the validation loss would decrease even further, resulting in a more accurate model.
+
+#### **D. The Unsloth Message is Informational:**
+
+The message Unsloth: `Not an error, but Gemma3ForConditionalGeneration` does not accept `num_items_in_batch`... is perfectly normal. It's a technical note from the library developers explaining that their optimization for gradient accumulation is slightly different for this specific model architecture. As they state, the effect on accuracy is negligible and you can safely ignore it.
 
 ---
