@@ -100,7 +100,9 @@ See the provided [`configs.yaml`](fineTune/configs/configs.yaml) for a complete,
    - `git clone https://github.com/mm-mazhar/FineTuneGemma.git`
    - make necessary changes in `fineTune/configs/configs.yaml` if you wish to.
    - Zip `fineTune` folder, then
-   - upload `fineTune.ipynb` to your Colab workspace and select GPU runtime with `A100 with High RAM` and run the notebook.
+   - upload `fineTune.ipynb` to your Colab workspace.
+   - set `environment vars` in Colab.
+   - and select GPU runtime with `A100 with High RAM` and run the notebook.
 
 2. **Mount Google Drive**
    - The notebook will prompt you to mount your Google Drive for persistent storage.
