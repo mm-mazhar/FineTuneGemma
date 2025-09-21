@@ -159,7 +159,52 @@ See the provided [`configs.yaml`](fineTune/configs/configs.yaml) for a complete,
 
 ---
 
-## 6. Troubleshooting
+## 6. Analysis of Training Results
+
+<div align="center">
+  <img src="docs/images/VLM_Training_0.jpg" alt="Training Results" width="500">
+</div>
+
+
+Training outcome is great, especially for a short, 30-step test run. 
+Here are the key takeaways:
+
+#### **A. The Model is Learning Effectively:**
+
+Training Loss shows a steep and consistent decrease, starting from a high of 4.8825 at Step 1 and dropping all the way to 0.4569 by Step 30. This is a classic sign of a model successfully learning the patterns in given data.
+
+
+#### **B. The Model is Generalizing Well (Not Overfitting):**
+This is the most important metric. Validation Loss is also consistently decreasing `(1.16 -> 0.75 -> 0.70)`. This means the model isn't just memorizing the training examples; it's learning the underlying task in a way that allows it to perform well on new, unseen data from the validation set.
+
+
+#### **C. There is Room for More Improvement:**
+
+The best sign here is that at the end of the 30 steps, validation loss was still going down. This strongly suggests that the model has not yet reached its peak performance. If you were to continue training for more steps or epochs, it's very likely the validation loss would decrease even further, resulting in a more accurate model.
+
+#### **D. The Unsloth Message is Informational:**
+
+The message Unsloth: `Not an error, but Gemma3ForConditionalGeneration` does not accept `num_items_in_batch`... is perfectly normal. It's a technical note from the library developers explaining that their optimization for gradient accumulation is slightly different for this specific model architecture. As they state, the effect on accuracy is negligible and you can safely ignore it.
+
+#### **E. Conclusion and Next Steps:**
+
+This is an ideal result for a test run. Successfully achieved:
+  - Built a robust data pipeline.
+  - Configured the trainer correctly.
+  - Confirmed that the model can learn from given data effectively.
+
+Clear next step is to perform a full training run. Based on these promising results, we should now go back to `SFTConfig` in `FineTune.ipynb` and make the following changes:
+
+```
+# num_train_epochs = 1, # Set this for a full training run
+max_steps = 300,        # Or simply increase the number of steps
+```
+
+Training for more steps `(e.g., 300, 500, or a full epoch)` will allow the model to continue learning and will likely result in a significantly lower final validataion loss and a much more capable image captioning model.
+
+---
+
+## 7. Troubleshooting
 
 - **Missing Dependencies**:  
   Ensure all requirements are installed. The notebook will print missing packages if any are detected.
@@ -172,7 +217,7 @@ See the provided [`configs.yaml`](fineTune/configs/configs.yaml) for a complete,
 
 ---
 
-## 7. References
+## 8. References
 
 - [VizWiz Dataset](https://vizwiz.cs.colorado.edu/)
 - [Unsloth Documentation](https://github.com/unslothai/unsloth)
@@ -181,7 +226,7 @@ See the provided [`configs.yaml`](fineTune/configs/configs.yaml) for a complete,
 
 ---
 
-## 8. Project Structure
+## 9. Project Structure
 
 ```
 fineTune/
@@ -203,32 +248,4 @@ FineTune.ipynb
 ```
 
 ---
-
-## Analysis of Training Results
-
-<div align="center">
-  <img src="docs/images/VLM_Training_0.jpg" alt="Training Results" width="500">
-</div>
-
-
-Training outcome is great, especially for a short, 30-step test run. 
-Here are the key takeaways:
-
-#### **A. The Model is Learning Effectively:**
-
-Training Loss shows a steep and consistent decrease, starting from a high of 4.8825 at Step 1 and dropping all the way to 0.4569 by Step 30. This is a classic sign of a model successfully learning the patterns in given data.
-
-
-#### **B. The Model is Generalizing Well (Not Overfitting):**
-This is the most important metric. Your Validation Loss is also consistently decreasing `(1.16 -> 0.75 -> 0.70)`. This means the model isn't just memorizing the training examples; it's learning the underlying task in a way that allows it to perform well on new, unseen data from the validation set.
-
-
-#### **C. There is Room for More Improvement:**
-
-The best sign here is that at the end of the 30 steps, your validation loss was still going down. This strongly suggests that the model has not yet reached its peak performance. If you were to continue training for more steps or epochs, it's very likely the validation loss would decrease even further, resulting in a more accurate model.
-
-#### **D. The Unsloth Message is Informational:**
-
-The message Unsloth: `Not an error, but Gemma3ForConditionalGeneration` does not accept `num_items_in_batch`... is perfectly normal. It's a technical note from the library developers explaining that their optimization for gradient accumulation is slightly different for this specific model architecture. As they state, the effect on accuracy is negligible and you can safely ignore it.
-
 ---
