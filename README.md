@@ -161,12 +161,21 @@ See the provided [`configs.yaml`](fineTune/configs/configs.yaml) for a complete,
 
 ## 6. Analysis of Training Results
 
+Previous attempts:
+
+<div align="center">
+  <img src="docs/images/VLM_Training_previous_attempt.jpg" alt="Training Results" width="500">
+</div>
+
+You can see `eval loss` is quite high, then I made some changes in `SFTConfig` and also used Unsloth's `UnslothVisionDataCollator` instead of custom made `data_collator`.
+Which has significant impact on `eval loss`.
+
 <div align="center">
   <img src="docs/images/VLM_Training_0.jpg" alt="Training Results" width="500">
 </div>
 
 
-Training outcome is great, especially for a short, 30-step test run. 
+Training outcome is great, especially for a short, 30-step test run.
 Here are the key takeaways:
 
 #### **A. The Model is Learning Effectively:**
