@@ -1,0 +1,102 @@
+# fineTune/configs/config.yaml | Configuration for the VizWiz dataset download pipeline and fine tuning
+# From https://vizwiz.cs.colorado.edu/
+dataset:
+  # Flag to determine which set of URLs to use for dataset download.
+  # Set to true to use Google Drive URLs, false for original dataset URLs.
+  use_gdrive_urls: true
+
+  # URLs for each component of the VizWiz dataset
+  urls:
+    original_urls:
+      annotations: "https://vizwiz.cs.colorado.edu/VizWiz_final/caption/annotations.zip"
+      train_images: "https://vizwiz.cs.colorado.edu/VizWiz_final/images/train.zip"
+      val_images: "https://vizwiz.cs.colorado.edu/VizWiz_final/images/val.zip"
+      test_images: "https://vizwiz.cs.colorado.edu/VizWiz_final/images/test.zip"
+
+    gdrive_urls:
+      annotations: "https://drive.google.com/uc?export=download&id=1tUGMdeM_CrFjDBaGKhdJ3Hacb0Bj1oAr"
+      train_images: "https://drive.google.com/uc?export=download&id=1iiE1svRhVUc3CYvZBi02HqqoL_kdzFf_"
+      val_images: "https://drive.google.com/uc?export=download&id=1m6ntNW0dQP5e8mpNBEkEKo_WY4IIcW67"
+      test_images: "https://drive.google.com/uc?export=download&id=1qiZVdJo9kAVYy7OUaPjY1Dbmh5UirEB9"
+
+  # Local directory structure for saving and organizing the dataset
+  paths:
+    base_dir: "fineTune/dataset/vizWiz"
+    temp_zip_dir: "fineTune/dataset/vizWiz/zips"
+    images_dir: "fineTune/dataset/vizWiz/images"
+    annotations_dir: "fineTune/dataset/vizWiz/annotations"
+    processed_dir: "fineTune/dataset/vizWiz/processed_for_tuning"
+  
+  # Dataset Preparation Steps
+  preparation_steps:
+    run_prepare_step: true
+    run_transform_step: true
+    check_dataset_integrity: true
+
+  # Subset of Dataset Configuration (subset is applied at data transformation stage)
+  subset:
+    enabled: true           # Set to `true` to activate this feature.
+    train_percentage: 0.3   # Use %age of the training data.
+    val_percentage: 0.3     # Use %age of the validation data.
+
+# Fine-Tuning Configuration
+fineTune:
+  model_to_use: "unsloth/gemma-3-4b-pt"
+  # List of 4-bit models
+  fourbit_models:
+    # More models at https://huggingface.co/unsloth
+    # 4bit dynamic quants for superior accuracy and low memory use
+    - "unsloth/gemma-3-4b-pt" 
+    - "unsloth/gemma-3n-E4B-it-unsloth-bnb-4bit"
+    - "unsloth/gemma-3n-E2B-it-unsloth-bnb-4bit"
+
+    # Pretrained models
+    - "unsloth/gemma-3n-E4B-unsloth-bnb-4bit"
+    - "unsloth/gemma-3n-E2B-unsloth-bnb-4bit"
+
+    # Other Gemma 3 quants
+    - "unsloth/gemma-3-1b-it-unsloth-bnb-4bit"
+    - "unsloth/gemma-3-4b-it-unsloth-bnb-4bit"
+    - "unsloth/gemma-3-12b-it-unsloth-bnb-4bit"
+    - "unsloth/gemma-3-27b-it-unsloth-bnb-4bit"
+
+    - "unsloth/Llama-3.2-11B-Vision-Instruct-bnb-4bit"  # Llama 3.2 vision support
+    - "unsloth/Llama-3.2-11B-Vision-bnb-4bit"
+    - "unsloth/Llama-3.2-90B-Vision-Instruct-bnb-4bit"  # Can fit in a 80GB card!
+    - "unsloth/Llama-3.2-90B-Vision-bnb-4bit"
+
+    - "unsloth/Pixtral-12B-2409-bnb-4bit"               # Pixtral fits in 16GB!
+    - "unsloth/Pixtral-12B-Base-2409-bnb-4bit"          # Pixtral base model
+
+    - "unsloth/Qwen2-VL-2B-Instruct-bnb-4bit"           # Qwen2 VL support
+    - "unsloth/Qwen2-VL-7B-Instruct-bnb-4bit"
+    - "unsloth/Qwen2-VL-72B-Instruct-bnb-4bit"
+
+    - "unsloth/llava-v1.6-mistral-7b-hf-bnb-4bit"       # Any Llava variant works!
+    - "unsloth/llava-1.5-7b-hf-bnb-4bit"
+
+    # Google Models
+    - "google/gemma-3-27-pt"
+    - "google/gemma-3n-e2b-it"
+
+  dataset_path: "fineTune/dataset/vizWiz/processed_for_tuning"
+  adapters_output_dir: "fineTune/models/gemma/gemma-3n-adapters"
+  trainer_output_dir: "fineTune/models/gemma/training_checkpoints"
+  merged_model_output_dir: "fineTune/models/gemma/gemma-3n-merged-model"
+  logging_dir: "fineTune/logs"
+  # Configuration for exporting the final, merged model.
+  export:
+    save_locally: false     # Set to true to save a merged model to your Drive/local disk.
+    push_to_hub: true       # Set to true to upload the merged model to Hugging Face.
+    hub_repo_name: "gemma-3n-vizWiz-finetuned"
+
+# TensorBoard Configuration
+tensorboard:
+  auto_start: false        # Set to `true` to automatically start TensorBoard during training (Colab only)
+  show_instructions: true  # Set to `true` to show TensorBoard setup instructions in console output
+  # Note: auto_start only works in Google Colab environments
+  # For local environments, use: python fineTune/monitor_training.py tensorboard
+
+
+
+  
