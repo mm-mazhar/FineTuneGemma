@@ -1,3 +1,14 @@
+# -*- coding: utf-8 -*-
+# """
+# testn.py
+# Description
+# This script runs the inference on a
+# fine-tuned Gemma model using an
+# image URL and a prompt.
+# Author: Mazhar
+# Created on: September 23, 2025
+# """
+
 # --- Unsloth must be imported before transformers, trl, peft ---
 # isort: off
 from unsloth import FastVisionModel
