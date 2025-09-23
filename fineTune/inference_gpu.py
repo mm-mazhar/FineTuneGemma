@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # """
-# testn.py
+# inference_gpu.py
 # Description
 # This script runs the inference on a
 # fine-tuned Gemma model using an
@@ -43,21 +43,6 @@ def get_hf_token():
     if not hf_token:
         raise RuntimeError("HF_TOKEN not found in Colab userdata or .env file.")
     return hf_token
-
-
-hf_token = get_hf_token()
-login(token=hf_token)
-print(f"HF Token: {hf_token[-5:]}")
-
-# --- Configuration ---
-MODEL_NAME = "mazqoty/gemma-3n-vizWiz-finetuned"
-IMAGE_URL = (
-    "http://images.cocodataset.org/val2017/000000039769.jpg"  # A sample image of cats
-)
-# IMAGE_URL = "http://images.cocodataset.org/test-stuff2017/000000000416.jpg"
-
-# PROMPT = "Write a short, clear description of this image."
-PROMPT = """You are a helpful assistant for a visually impaired person. Your task is to describe the scene in the provided image clearly and concisely, focusing on potential obstacles or key objects."""
 
 
 def run_inference(model_name, image_url, prompt):
@@ -142,4 +127,15 @@ def run_inference(model_name, image_url, prompt):
 
 
 if __name__ == "__main__":
+    hf_token = get_hf_token()
+    login(token=hf_token)
+    print(f"HF Token: {hf_token[-5:]}")
+
+    # --- Configuration ---
+    MODEL_NAME = "mazqoty/gemma-3n-vizWiz-finetuned"
+    IMAGE_URL = "http://images.cocodataset.org/val2017/000000039769.jpg"  # A sample image of cats
+    # IMAGE_URL = "http://images.cocodataset.org/test-stuff2017/000000000416.jpg"
+
+    # PROMPT = "Write a short, clear description of this image."
+    PROMPT = """You are a helpful assistant for a visually impaired person. Your task is to describe the scene in the provided image clearly and concisely, focusing on potential obstacles or key objects."""
     run_inference(MODEL_NAME, IMAGE_URL, PROMPT)
