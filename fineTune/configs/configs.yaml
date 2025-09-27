@@ -36,29 +36,29 @@ dataset:
   # Subset of Dataset Configuration (subset is applied at data transformation stage)
   subset:
     enabled: true           # Set to `true` to activate this feature.
-    train_percentage: 0.3   # Use %age of the training data.
-    val_percentage: 0.3     # Use %age of the validation data.
+    train_percentage: 1   # Use %age of the training data.
+    val_percentage: 1     # Use %age of the validation data.
 
 # Fine-Tuning Configuration
 fineTune:
-  model_to_use: "unsloth/gemma-3-4b-pt"
+  model_to_use: "unsloth/gemma-3-4b-it-unsloth-bnb-4bit"
   # List of 4-bit models
   fourbit_models:
     # More models at https://huggingface.co/unsloth
     # 4bit dynamic quants for superior accuracy and low memory use
     - "unsloth/gemma-3-4b-pt" 
-    - "unsloth/gemma-3n-E4B-it-unsloth-bnb-4bit"
-    - "unsloth/gemma-3n-E2B-it-unsloth-bnb-4bit"
-
-    # Pretrained models
-    - "unsloth/gemma-3n-E4B-unsloth-bnb-4bit"
-    - "unsloth/gemma-3n-E2B-unsloth-bnb-4bit"
-
-    # Other Gemma 3 quants
-    - "unsloth/gemma-3-1b-it-unsloth-bnb-4bit"
     - "unsloth/gemma-3-4b-it-unsloth-bnb-4bit"
-    - "unsloth/gemma-3-12b-it-unsloth-bnb-4bit"
-    - "unsloth/gemma-3-27b-it-unsloth-bnb-4bit"
+    - "unsloth/gemma-3-4b-it-bnb-4bit"
+    - "unsloth/gemma-3-4b-pt-unsloth-bnb-4bit"
+    - "unsloth/gemma-3-4b-it"
+    - "unsloth/gemma-3-4b-it-pt"
+    - "unsloth/gemma-3-4b-pt-bnb-4bit"
+    - "unsloth/gemma-3-4b-it-qat"
+    - "unsloth/gemma-3-4b-it-qat-unsloth-bnb-4bit"
+    - "unsloth/gemma-3-4b-it-qat-bnb-4bit"
+    - "unsloth/gemma-3-4b-it-qat-int4-bnb-4bit"
+    - "unsloth/gemma-3-4b-it-qat-int4-unsloth-bnb-4bit"
+    - "unsloth/gemma-3-4b-it-qat-int4-bnb-4bit"
 
     - "unsloth/Llama-3.2-11B-Vision-Instruct-bnb-4bit"  # Llama 3.2 vision support
     - "unsloth/Llama-3.2-11B-Vision-bnb-4bit"
@@ -88,7 +88,7 @@ fineTune:
   export:
     save_locally: false     # Set to true to save a merged model to your Drive/local disk.
     push_to_hub: true       # Set to true to upload the merged model to Hugging Face.
-    hub_repo_name: "gemma-3n-vizWiz-finetuned"
+    hub_repo_name: "gemma-3-4b-it-unsloth-bnb-4bit-vizWiz-finetuned"
 
 # TensorBoard Configuration
 tensorboard:

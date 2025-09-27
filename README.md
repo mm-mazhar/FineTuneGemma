@@ -1,5 +1,15 @@
 # FineTuneGemma: End-to-End Fine-Tuning Pipeline for Gemma on VizWiz
 
+
+<div align="center">
+<p>
+&nbsp; <a href="https://medium.com/@mazqoty.01/fine-tuning-gemma-with-reusable-pipeline-peft-explained-part-1-6f49615f1d18" target="_blank" class="icon brands fa-medium fa-2x"><span class="label">Medium Article 1</span></a>
+&nbsp; <a href="https://medium.com/@mazqoty.01/fine-tuning-gemma-with-reusable-pipeline-lora-and-qlora-explained-part-2-0127ae6144b5" target="_blank" class="icon brands fa-medium fa-2x"><span class="label">Medium Article 2</span></a>
+&nbsp; <a href="https://medium.com/@mazqoty.01/fine-tuning-gemma-with-reusable-pipeline-part-3-5c7f9182f1ee" target="_blank" class="icon brands fa-medium fa-2x"><span class="label">Medium Article 3</span></a>
+</p>
+</div>
+
+
 ## Overview
 
 This project provides a modular pipeline for preparing the [VizWiz dataset](https://vizwiz.cs.colorado.edu/VizWiz_final/) and fine-tuning vision-language models (such as Gemma) using Unsloth. The workflow is designed for easy use in Google Colab and supports robust configuration via a single [YAML file](fineTune/configs/configs.yaml).
